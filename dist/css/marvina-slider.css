@@ -1,0 +1,257 @@
+.ms,
+.ms .ms-slider,
+.ms .ms-slider-element-container {
+  position: relative;
+}
+.ms .ms-slider {
+  overflow: hidden;
+}
+.ms .ms-slider,
+.ms .ms-slider .ms-slider-element-container,
+.ms .ms-slider .ms-slider-element-wrapper,
+.ms .ms-slider .ms-slider-element {
+  width: 100%;
+  height: 100%;
+}
+.ms .ms-slider .ms-slider-element-container.ms-carousel:not(.ms-carousel-reverse).ms-carousel-animation {
+  -webkit-animation-name: ms-carousel;
+  -ms-animation-name: ms-carousel;
+  animation-name: ms-carousel;
+}
+.ms .ms-slider .ms-slider-element-container.ms-carousel:not(.ms-carousel-reverse) .ms-carousel-next {
+  left: 100%;
+}
+.ms .ms-slider .ms-slider-element-container.ms-carousel.ms-carousel-reverse.ms-carousel-animation {
+  -webkit-animation-name: ms-carousel-reverse;
+  -ms-animation-name: ms-carousel-reverse;
+  animation-name: ms-carousel-reverse;
+}
+.ms .ms-slider .ms-slider-element-container.ms-carousel.ms-carousel-reverse .ms-carousel-next {
+  left: -100%;
+}
+.ms .ms-slider .ms-slider-element-container.ms-flow:not(.ms-flow-reverse) .ms-flow-next,
+.ms .ms-slider .ms-slider-element-container.ms-flow:not(.ms-flow-reverse) .ms-flow-next .ms-slider-element {
+  right: 0;
+}
+.ms .ms-slider .ms-slider-element-container.ms-flow.ms-flow-reverse .ms-flow-next {
+  left: 0;
+}
+.ms .ms-slider .ms-slider-element-container.ms-flow .ms-flow-prev {
+  z-index: 2;
+}
+.ms .ms-slider .ms-slider-element-container.ms-flow .ms-flow-next {
+  z-index: 4;
+  width: 0;
+}
+.ms .ms-slider .ms-slider-element-container.ms-flow .ms-flow-next.ms-flow-animation {
+  -webkit-animation-name: ms-flow;
+  -ms-animation-name: ms-flow;
+  animation-name: ms-flow;
+}
+.ms .ms-slider .ms-slider-element-container.ms-fade .ms-fade-prev {
+  z-index: 2;
+}
+.ms .ms-slider .ms-slider-element-container.ms-fade .ms-fade-next {
+  z-index: 4;
+  opacity: 0;
+}
+.ms .ms-slider .ms-slider-element-container.ms-fade .ms-fade-next.ms-fade-animation {
+  -webkit-animation-name: ms-fade;
+  -ms-animation-name: ms-fade;
+  animation-name: ms-fade;
+}
+.ms .ms-slider .ms-slider-element-container .ms-slider-element-wrapper {
+  position: absolute;
+  overflow: hidden;
+}
+.ms .ms-slider .ms-slider-element-container .ms-slider-element-wrapper:not(.ms-active) {
+  visibility: hidden;
+  pointer-events: none;
+}
+.ms .ms-slider .ms-slider-element-container .ms-slider-element-wrapper .ms-slider-element {
+  position: absolute;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.ms > ul {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: 10px;
+  z-index: 6;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  list-style: none;
+}
+.ms > ul li {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  margin: 10px 5px;
+  border-radius: 100%;
+  background: rgba(235, 235, 235, 0.4);
+  -webkit-transition: 175ms 0s linear;
+  -ms-transition: 175ms 0s linear;
+  transition: 175ms 0s linear;
+  -webkit-transition-property: background-color, box-shadow;
+  -ms-transition-property: background-color, box-shadow;
+  transition-property: background-color, box-shadow;
+}
+.ms > ul li.ms-active {
+  background-color: #EBEBEB;
+  box-shadow: 0px 0px 5px 0px rgba(236, 236, 236, 0.4);
+}
+.ms .ms-arrow {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 50%;
+  z-index: 6;
+  margin-top: -25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.ms .ms-arrow.ms-prev-arrow {
+  left: 20px;
+}
+.ms .ms-arrow.ms-next-arrow {
+  right: 20px;
+}
+.ms .ms-arrow svg {
+  fill: rgba(220, 220, 220, 0.6);
+}
+.ms .ms-arrow:hover svg {
+  fill: #EEE;
+}
+.ms .ms-autoplay-container {
+  position: absolute;
+  right: 27px;
+  top: 25px;
+  z-index: 6;
+  width: 35px;
+  height: 35px;
+}
+.ms .ms-autoplay-container > svg {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  fill: rgba(255, 255, 255, 0.7);
+  -webkit-transition: fill 200ms 0s linear, opacity 100ms 0s linear;
+  -ms-transition: fill 200ms 0s linear, opacity 100ms 0s linear;
+  transition: fill 200ms 0s linear, opacity 100ms 0s linear;
+}
+.ms .ms-autoplay-container:hover > svg {
+  fill: #FFF;
+}
+.ms .ms-autoplay-container.ms-active .ms-play,
+.ms .ms-autoplay-container:not(.ms-active) .ms-stop {
+  opacity: 0;
+  pointer-events: none;
+}
+.ms-animation,
+.ms .ms-slider .ms-slider-element-container.ms-carousel:not(.ms-carousel-reverse).ms-carousel-animation,
+.ms .ms-slider .ms-slider-element-container.ms-carousel.ms-carousel-reverse.ms-carousel-animation,
+.ms .ms-slider .ms-slider-element-container.ms-flow .ms-flow-next.ms-flow-animation,
+.ms .ms-slider .ms-slider-element-container.ms-fade .ms-fade-next.ms-fade-animation {
+  -webkit-animation-iteration-count: 1;
+  -ms-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -webkit-animation-fill-mode: both;
+  -ms-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes ms-carousel {
+  from {
+    -webkit-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    transform: translateX(0%);
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}
+@keyframes ms-carousel {
+  from {
+    -webkit-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    transform: translateX(0%);
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}
+@-webkit-keyframes ms-carousel-reverse {
+  from {
+    -webkit-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    transform: translateX(0%);
+  }
+  to {
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+}
+@keyframes ms-carousel-reverse {
+  from {
+    -webkit-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    transform: translateX(0%);
+  }
+  to {
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+}
+@-webkit-keyframes ms-flow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes ms-flow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+@-webkit-keyframes ms-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ms-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
