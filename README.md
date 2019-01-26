@@ -196,3 +196,6 @@ IE 10 is not supported and patches to fix problems will not be accepted.
 
 ## License
 Marvina Slider is provided under the [MIT License](https://opensource.org/licenses/MIT).
+
+## Related Projects
+* [Marvina Slider React](https://github.com/cevadtokatli/marvina-slider-react)
