@@ -440,6 +440,10 @@ export class MarvinaSlider {
         return this._total;
     }
 
+    public getCurrent(): SliderElement {
+        return this._elements[this._index];
+    }
+
     public getTiming(): string {
         return this._timing;
     }
