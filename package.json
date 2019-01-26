@@ -31,6 +31,7 @@
   "devDependencies": {
     "es6-promise": "^4.2.4",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^6.0.0",
     "gulp-cssmin": "^0.2.0",
     "gulp-less": "^4.0.0",
     "gulp-rename": "^1.2.2",

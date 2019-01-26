@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const rename = require('gulp-rename');
 const less = require('gulp-less');
+const autoprefixer = require('gulp-autoprefixer');
 const cssmin = require('gulp-cssmin');
 const uglify = require('gulp-uglify');
 const rollup = require('rollup');
@@ -13,6 +14,10 @@ gulp.task('less', async () => {
     await new Promise(resolve => {
         gulp.src('./src/less/marvina-slider.less')
         .pipe(less())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .on('error', e => {
             console.log(e);
             resolve();

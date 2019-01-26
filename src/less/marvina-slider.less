@@ -23,7 +23,7 @@
       &.ms-carousel {
         &:not(.ms-carousel-reverse) {
           &.ms-carousel-animation:extend(.ms-animation) {
-            .animation(animation-name, ms-carousel);
+            animation-name: ms-carousel;
           }
 
           .ms-carousel-next {
@@ -33,7 +33,7 @@
 
         &.ms-carousel-reverse {
           &.ms-carousel-animation:extend(.ms-animation) {
-            .animation(animation-name, ms-carousel-reverse);
+            animation-name: ms-carousel-reverse;
           }
 
           .ms-carousel-next {
@@ -63,7 +63,7 @@
           width:0;
 
           &.ms-flow-animation:extend(.ms-animation) {
-            .animation(animation-name, ms-flow);
+            animation-name: ms-flow;
           }
         }
       }
@@ -78,7 +78,7 @@
           opacity:0;
 
           &.ms-fade-animation:extend(.ms-animation) {
-            .animation(animation-name, ms-fade);
+            animation-name: ms-fade;
           }
         }
       }
@@ -108,17 +108,9 @@
     right:15px;
     bottom:10px;
     z-index:6;
-    display:-webkit-flex;
-    display:-ms-flex;
     display:flex;
-    -webkit-flex-wrap:wrap;
-    -ms-flex-wrap:wrap;
     flex-wrap:wrap;
-    -webkit-justify-content:center;
-    -ms-justify-content:center;
     justify-content:center;
-    -webkit-align-items:center;
-    -ms-align-items:center;
     align-items:center;
     list-style:none;
 
@@ -131,11 +123,7 @@
       margin:10px 5px;
       border-radius:100%;
       background:rgba(235,235,235,.4);
-      -webkit-transition:175ms 0s linear;
-      -ms-transition:175ms 0s linear;
       transition:175ms 0s linear;
-      -webkit-transition-property:background-color, box-shadow;
-      -ms-transition-property:background-color, box-shadow;
       transition-property:background-color, box-shadow;
 
       &.ms-active {
@@ -153,9 +141,6 @@
     top:50%;
     z-index:6;
     margin-top:-25px;
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
     user-select:none;
 
     &.ms-prev-arrow {
@@ -188,8 +173,6 @@
       width:35px;
       height:35px;
       fill:rgba(255,255,255,.7);
-      -webkit-transition:fill 200ms 0s linear, opacity 100ms 0s linear;
-      -ms-transition:fill 200ms 0s linear, opacity 100ms 0s linear;
       transition:fill 200ms 0s linear, opacity 100ms 0s linear;
     }
 
@@ -205,80 +188,28 @@
   }
 }
 
-.animation(@k, @v) {
-  -webkit-@{k}:@v;
-  -ms-@{k}:@v;
-  @{k}:@v;
-}
-
 .ms-animation {
-  .animation(animation-iteration-count, 1);
-  .animation(animation-fill-mode, both);
-}
-
-@-webkit-keyframes ms-carousel {
-  from {
-    -webkit-transform:translateX(0%);
-    -ms-transform:translateX(0%);
-    transform:translateX(0%);
-  }
-
-  to {
-    -webkit-transform:translateX(-100%);
-    -ms-transform:translateX(-100%);
-    transform:translateX(-100%);
-  }
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
 }
 
 @keyframes ms-carousel {
   from {
-    -webkit-transform:translateX(0%);
-    -ms-transform:translateX(0%);
     transform:translateX(0%);
   }
 
   to {
-    -webkit-transform:translateX(-100%);
-    -ms-transform:translateX(-100%);
     transform:translateX(-100%);
-  }
-}
-
-@-webkit-keyframes ms-carousel-reverse {
-  from {
-    -webkit-transform:translateX(0%);
-    -ms-transform:translateX(0%);
-    transform:translateX(0%);
-  }
-
-  to {
-    -webkit-transform:translateX(100%);
-    -ms-transform:translateX(100%);
-    transform:translateX(100%);
   }
 }
 
 @keyframes ms-carousel-reverse {
   from {
-    -webkit-transform:translateX(0%);
-    -ms-transform:translateX(0%);
     transform:translateX(0%);
   }
 
   to {
-    -webkit-transform:translateX(100%);
-    -ms-transform:translateX(100%);
     transform:translateX(100%);
-  }
-}
-
-@-webkit-keyframes ms-flow {
-  from {
-    width:0%;
-  }
-
-  to {
-    width:100%;
   }
 }
 
@@ -289,16 +220,6 @@
 
   to {
     width:100%;
-  }
-}
-
-@-webkit-keyframes ms-fade {
-  from {
-    opacity:0;
-  }
-
-  to {
-    opacity:1;
   }
 }
 
