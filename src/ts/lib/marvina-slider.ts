@@ -23,7 +23,7 @@ export class MarvinaSlider {
     private _autoPlaySpeed: number;
     private _autoPlayStatus: boolean = true;
     private _autoPlayContainer: HTMLDivElement;
-    private _autoPlayInterval: number;
+    private _autoPlayInterval: NodeJS.Timer;
     private _elements: SliderElement[] = [];
     private _callbacks: Callbacks = {};
     private _index: number = 0;
@@ -157,7 +157,7 @@ export class MarvinaSlider {
             let wrapperEl:HTMLDivElement = document.createElement('div');
             wrapperEl.classList.add('ms-slider-element-wrapper');
             el.classList.add('ms-slider-element');
-            el.appendChild(wrapperEl);
+            wrapperEl.appendChild(el);
 
             if(index < this._total) {
                 this._container.insertBefore(wrapperEl, this._container.childNodes[index]);
