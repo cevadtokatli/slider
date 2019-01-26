@@ -7,9 +7,9 @@ export const Fade:Slider = {
     init(sliderEl:SliderElement): void {},
     animate(nextEl:SliderElement, prevEl:SliderElement, status:boolean, emitter:Emitter): Promise<void> {
         return new Promise(resolve => {
-            let container:HTMLDivElement = emitter.get<HTMLDivElement>('_container');
-            let timing:string = emitter.get<string>('_timing');
-            let duration:number = emitter.get<number>('_duration');
+            let container:HTMLDivElement = emitter.get<HTMLDivElement>('_container'),
+                timing:string = emitter.get<string>('_timing'),
+                duration:number = emitter.get<number>('_duration');
 
             container.classList.add('ms-fade');
             prevEl.wrapperEl.classList.add('ms-fade-prev');

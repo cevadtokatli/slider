@@ -7,9 +7,9 @@ export const Carousel:Slider = {
     init(sliderEl:SliderElement): void {},
     animate(nextEl:SliderElement, prevEl:SliderElement, status:boolean, emitter:Emitter): Promise<void> {
         return new Promise(resolve => {
-            let container:HTMLDivElement = emitter.get<HTMLDivElement>('_container');
-            let timing:string = emitter.get<string>('_timing');
-            let duration:number = emitter.get<number>('_duration');
+            let container:HTMLDivElement = emitter.get<HTMLDivElement>('_container'),
+                timing:string = emitter.get<string>('_timing'),
+                duration:number = emitter.get<number>('_duration');
 
             container.setAttribute('style', [Util.setCSSPrefix(`animation-timing-function:${timing}`), Util.setCSSPrefix(`animation-duration:${duration}ms`)].join(''));
             container.classList.add('ms-carousel');
