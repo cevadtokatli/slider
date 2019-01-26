@@ -4,7 +4,12 @@ For more information you can take a look at the demos: [Demo 1](https://cevadtok
 
 ## NPM
 ```
-npm install --save marvina-slider
+npm install --save-dev marvina-slider
+```
+
+## Yarn
+```
+yarn add marvina-slider --dev
 ```
 
 ## Installation
@@ -160,6 +165,7 @@ destroy | | void | Destroys the slider.
 getIndex | | number | Returns index.
 setIndex | index: number | Promise\<boolean> | Sets index and animates the slider. Returns `false` if the slider is in animation.
 getTotal | | number | Returns total number of images.
+getCurrent | | [SliderElement](#slider-element) | Returns the current element.
 getTiming | | string | Returns timing value.
 setTiming | timing: string | void | Sets timing value.
 getDuration | | number | Returns duration.
