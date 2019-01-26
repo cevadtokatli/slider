@@ -2,5 +2,4 @@
 node_modules/
 .rpt2_cache/
 demo/
-dist/
 yarn.lock
