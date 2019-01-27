@@ -54,9 +54,9 @@ import {Slider, SliderType} from 'marvina-slider'
 const slider = new Slider({
     el: '#slider',
     imagesSettings: [
-        { id:'img1', SliderType:SliderType.Carousel },
-        { id:'img2', SliderType:SliderType.Flow },
-        { id:'img3', SliderType:SliderType.Fade }
+        { id:'img1', sliderType:SliderType.Carousel },
+        { id:'img2', sliderType:SliderType.Flow },
+        { id:'img3', sliderType:SliderType.Fade }
     ]
 });
 ```
