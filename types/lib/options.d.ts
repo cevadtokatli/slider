@@ -14,6 +14,7 @@ export interface Options {
     autoPlay?: boolean;
     autoPlaySpeed?: number;
     imageSettings?: SliderElement[];
+    init?: boolean;
 }
 
 export const defaultOptions: Options;

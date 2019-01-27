@@ -20,6 +20,8 @@ export declare class MarvinaSlider {
     private _autoPlayStatus: boolean;
     private _autoPlayContainer: HTMLDivElement;
     private _autoPlayInterval: NodeJS.Timer;
+    private _init: boolean;
+    private _o: Options;
     private _elements: SliderElement[];
     private _callbacks: Callbacks;
     private _index: number;
@@ -32,6 +34,9 @@ export declare class MarvinaSlider {
 
     constructor(o?:Options);
     private extractAttributes(o:Options): void;
+    private initDOM(): void;
+    public init(): void;
+    private initSettingsElements(): void;
     public add(el:string|HTMLElement, index:number, options?:SliderElement): void;
     public addFirst(el:string|HTMLElement, options?:SliderElement): void;
     public addLast(el:string|HTMLElement, options?:SliderElement): void;
@@ -59,6 +64,8 @@ export declare class MarvinaSlider {
     public getAutoPlaySpeed(): number;
     public setAutoPlaySpeed(speed:number): void;
     private setAutoPlayInterval(duration?:boolean): void;
+    public getElements(): SliderElement[];
+    public setElements(elements:SliderElement[]): void;
 
     public emit<R>(method:string, args?:any[]): R;
     public get<R>(property:string): R;

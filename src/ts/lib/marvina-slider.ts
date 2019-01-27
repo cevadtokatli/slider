@@ -24,6 +24,8 @@ export class MarvinaSlider {
     private _autoPlayStatus: boolean = true;
     private _autoPlayContainer: HTMLDivElement;
     private _autoPlayInterval: NodeJS.Timer;
+    private _init: boolean;
+    private _o: Options;
     private _elements: SliderElement[] = [];
     private _callbacks: Callbacks = {};
     private _index: number = 0;
@@ -37,11 +39,21 @@ export class MarvinaSlider {
 
     constructor(o:Options=defaultOptions) {
         this.extractAttributes(o);
+        this._o = o;
 
         if(!(this._el = Util.getElement(o.el))) {
             throw new Error('Element could not be found');
         }
 
+        if(this._init) {
+            this.initDOM();
+        }
+    }
+
+    /**
+     * Inits slider with creating DOM.
+     */
+    private initDOM() {
         this._el.classList.add('ms');
 
         // elements & slider
@@ -55,17 +67,26 @@ export class MarvinaSlider {
             this._el.appendChild(msSliderEl);
         }
         this._container = msSliderEl.querySelector('div');
-
+  
         let imageSettingsObj:{[key: string]: SliderElement} = {};
-        o.imageSettings.forEach((i:SliderElement) => {
+        this._o.imageSettings.forEach((i:SliderElement) => {
             imageSettingsObj[i.id] = i;
         });
 
         let sliderNodeElements:NodeList = this._el.querySelectorAll('.ms-slider-element');
         for(let i:number=0; i<sliderNodeElements.length; i++) {
-            let sliderHTMLElement:HTMLElement = <HTMLElement> sliderNodeElements[i];
-            let id:string = sliderHTMLElement.getAttribute('ms-id');
-            let sliderElement:SliderElement;
+            let sliderHTMLElement:HTMLElement = <HTMLElement> sliderNodeElements[i],
+                id:string = sliderHTMLElement.getAttribute('ms-id'),
+                wrapperEl:HTMLDivElement,
+                sliderElement:SliderElement;
+                
+            if(this._init) {
+                wrapperEl = document.createElement('div');
+                wrapperEl.classList.add('ms-slider-element-wrapper');
+                wrapperEl.appendChild(sliderHTMLElement);
+            } else {
+                wrapperEl = <HTMLDivElement> sliderHTMLElement.parentNode;
+            }
 
             setSliderElement: {
                 if(id) {
@@ -78,22 +99,33 @@ export class MarvinaSlider {
                 sliderElement = {};
             }
 
-            sliderElement.el = sliderHTMLElement;
-            let wrapperEl:HTMLDivElement = document.createElement('div');
-            wrapperEl.classList.add('ms-slider-element-wrapper');
+
             sliderElement.wrapperEl = wrapperEl;
-            this._elements.push(sliderElement);
-
-            wrapperEl.appendChild(sliderHTMLElement);
-            this._container.appendChild(wrapperEl);
-
+            sliderElement.el = sliderHTMLElement;
             if(!sliderElement.sliderType) {
                 sliderElement.sliderType = this._sliderType;
             }
-
+            
+            this._elements.push(sliderElement);
+            this._container.appendChild(wrapperEl);
             Slider[sliderElement.sliderType].init(sliderElement);
         }
 
+        this.initSettingsElements();
+    }
+
+    /**
+     * Inits slider without creating DOM.
+     */
+    public init(): void {
+        this._container = this._el.querySelector('.ms-slider-element-container');
+        this.initSettingsElements();
+    }
+
+    /**
+     * Inits settings elements.
+     */
+    private initSettingsElements(): void {
         // index
         this._elements[this._index].wrapperEl.classList.add('ms-active');
 
@@ -101,19 +133,19 @@ export class MarvinaSlider {
         this._total = this._elements.length;
 
         // touchMove
-        if(o.touchMove) {
+        if(this._o.touchMove) {
             this._touchMove = new TouchMove(this._emitter);
         }
 
         // list / asList
-        let asList:HTMLUListElement|HTMLOListElement = <HTMLUListElement|HTMLOListElement> Util.getElement(o.asList) || null;
-        if(o.list || asList) {
-            this._list = new List(this._emitter, o.list, asList);
+        let asList:HTMLUListElement|HTMLOListElement = <HTMLUListElement|HTMLOListElement> Util.getElement(this._o.asList) || null;
+        if(this._o.list || asList) {
+            this._list = new List(this._emitter, this._o.list, asList);
         }
 
         // arrows / prevArrow / nextArrow
-        if(o.arrows || o.asPrevArrow || o.asNextArrow) {
-            this._arrows = new Arrows(this._emitter, o.arrows, {prevArrow:Util.getElement(o.asPrevArrow), nextArrow:Util.getElement(o.asNextArrow)});
+        if(this._o.arrows || this._o.asPrevArrow || this._o.asNextArrow) {
+            this._arrows = new Arrows(this._emitter, this._o.arrows, {prevArrow:Util.getElement(this._o.asPrevArrow), nextArrow:Util.getElement(this._o.asNextArrow)});
         }
 
         // auto playing
@@ -130,6 +162,7 @@ export class MarvinaSlider {
         }
     }
 
+
     /**
      * Extracts attributes from default options.
      */
@@ -141,7 +174,7 @@ export class MarvinaSlider {
             }
         }
 
-        let properties:string[] = ['timing', 'duration', 'sliderType',  'autoPlay', 'autoPlaySpeed'];
+        let properties:string[] = ['timing', 'duration', 'sliderType',  'autoPlay', 'autoPlaySpeed', 'init'];
         for(i in o) {
             if(properties.indexOf(i) > -1) {
                 this['_'+i] = o[i];
@@ -154,22 +187,25 @@ export class MarvinaSlider {
      */
     public add(el:string|HTMLElement, index:number, options:SliderElement={}): void {
         if((el = Util.getElement(el)) && index > -1 && index <= this._total) {
-            let wrapperEl:HTMLDivElement = document.createElement('div');
-            wrapperEl.classList.add('ms-slider-element-wrapper');
-            el.classList.add('ms-slider-element');
-            wrapperEl.appendChild(el);
-
-            if(index < this._total) {
-                this._container.insertBefore(wrapperEl, this._container.childNodes[index]);
-            } else {
-                this._container.appendChild(wrapperEl);
+            if(this._init) {
+                let wrapperEl:HTMLDivElement = document.createElement('div');
+                wrapperEl.classList.add('ms-slider-element-wrapper');
+                el.classList.add('ms-slider-element');
+                wrapperEl.appendChild(el);
+    
+                if(index < this._total) {
+                    this._container.insertBefore(wrapperEl, this._container.childNodes[index]);
+                } else {
+                    this._container.appendChild(wrapperEl);
+                }
+    
+                options.wrapperEl = wrapperEl;
+                options.el = el;
+                if(!options.sliderType) {
+                    options.sliderType = this._sliderType;
+                }
             }
 
-            options.wrapperEl = wrapperEl;
-            options.el = el;
-            if(!options.sliderType) {
-                options.sliderType = this._sliderType;
-            }
             Slider[options.sliderType].init(options);
             this._elements.splice(index, 0, options);
 
@@ -203,13 +239,20 @@ export class MarvinaSlider {
      * Removes the element at the specified index from the slider.
      */
     public remove(index:number): void {
-        if(index > -1 && index < this._total && index != this._index && this._total > 2) {
-            this._container.removeChild(this._container.childNodes[index]);
+        if(index > -1 && index < this._total && this._total > 2) {
+            if(this._init) {
+                this._container.removeChild(this._container.childNodes[index]);
+            }
+            
             this._elements.splice(index, 1);
 
             this._total -= 1;
-            if(this._index > index) {
+            if(this._index >= index) {
                 this._index -= 1;
+            }
+
+            if(this._elements[this._index]) {
+                this._elements[this._index].wrapperEl.classList.add('ms-active');
             }
 
             if(this._list) {
@@ -476,6 +519,14 @@ export class MarvinaSlider {
     private setAutoPlayInterval(duration:boolean=true): void {
         let speed:number = (!duration) ? this._autoPlaySpeed : (this._autoPlaySpeed + this._duration);
         this._autoPlayInterval = setInterval(() => { this.nextIndex(false,true); }, speed);
+    }
+
+    public getElements(): SliderElement[] {
+        return this._elements;
+    }
+
+    public setElements(elements:SliderElement[]): void {
+        this._elements = elements;
     }
 
     // emitter methods

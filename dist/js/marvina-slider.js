@@ -1,6 +1,6 @@
 /*!
  *   Marvina image slider
- *   version: 1.0.3
+ *   version: 1.0.4
  *    author: Cevad Tokatli <cevadtokatli@hotmail.com>
  *   website: http://cevadtokatli.com
  *    github: https://github.com/cevadtokatli/marvina-slider
@@ -1557,7 +1557,8 @@
 	    arrows: true,
 	    autoPlay: false,
 	    autoPlaySpeed: 5000,
-	    imageSettings: []
+	    imageSettings: [],
+	    init: true
 	};
 
 	var Carousel = {
@@ -1670,9 +1671,18 @@
 	            set: this.set.bind(this)
 	        };
 	        this.extractAttributes(o);
+	        this._o = o;
 	        if (!(this._el = Util.getElement(o.el))) {
 	            throw new Error('Element could not be found');
 	        }
+	        if (this._init) {
+	            this.initDOM();
+	        }
+	    }
+	    /**
+	     * Inits slider with creating DOM.
+	     */
+	    MarvinaSlider.prototype.initDOM = function () {
 	        this._el.classList.add('ms');
 	        // elements & slider
 	        var msSliderEl = document.createElement('div');
@@ -1687,14 +1697,20 @@
 	        }
 	        this._container = msSliderEl.querySelector('div');
 	        var imageSettingsObj = {};
-	        o.imageSettings.forEach(function (i) {
+	        this._o.imageSettings.forEach(function (i) {
 	            imageSettingsObj[i.id] = i;
 	        });
 	        var sliderNodeElements = this._el.querySelectorAll('.ms-slider-element');
 	        for (var i = 0; i < sliderNodeElements.length; i++) {
-	            var sliderHTMLElement = sliderNodeElements[i];
-	            var id = sliderHTMLElement.getAttribute('ms-id');
-	            var sliderElement = void 0;
+	            var sliderHTMLElement = sliderNodeElements[i], id = sliderHTMLElement.getAttribute('ms-id'), wrapperEl = void 0, sliderElement = void 0;
+	            if (this._init) {
+	                wrapperEl = document.createElement('div');
+	                wrapperEl.classList.add('ms-slider-element-wrapper');
+	                wrapperEl.appendChild(sliderHTMLElement);
+	            }
+	            else {
+	                wrapperEl = sliderHTMLElement.parentNode;
+	            }
 	            setSliderElement: {
 	                if (id) {
 	                    sliderElement = imageSettingsObj[id];
@@ -1704,34 +1720,44 @@
 	                }
 	                sliderElement = {};
 	            }
-	            sliderElement.el = sliderHTMLElement;
-	            var wrapperEl = document.createElement('div');
-	            wrapperEl.classList.add('ms-slider-element-wrapper');
 	            sliderElement.wrapperEl = wrapperEl;
-	            this._elements.push(sliderElement);
-	            wrapperEl.appendChild(sliderHTMLElement);
-	            this._container.appendChild(wrapperEl);
+	            sliderElement.el = sliderHTMLElement;
 	            if (!sliderElement.sliderType) {
 	                sliderElement.sliderType = this._sliderType;
 	            }
+	            this._elements.push(sliderElement);
+	            this._container.appendChild(wrapperEl);
 	            Slider[sliderElement.sliderType].init(sliderElement);
 	        }
+	        this.initSettingsElements();
+	    };
+	    /**
+	     * Inits slider without creating DOM.
+	     */
+	    MarvinaSlider.prototype.init = function () {
+	        this._container = this._el.querySelector('.ms-slider-element-container');
+	        this.initSettingsElements();
+	    };
+	    /**
+	     * Inits settings elements.
+	     */
+	    MarvinaSlider.prototype.initSettingsElements = function () {
 	        // index
 	        this._elements[this._index].wrapperEl.classList.add('ms-active');
 	        // total
 	        this._total = this._elements.length;
 	        // touchMove
-	        if (o.touchMove) {
+	        if (this._o.touchMove) {
 	            this._touchMove = new TouchMove(this._emitter);
 	        }
 	        // list / asList
-	        var asList = Util.getElement(o.asList) || null;
-	        if (o.list || asList) {
-	            this._list = new List(this._emitter, o.list, asList);
+	        var asList = Util.getElement(this._o.asList) || null;
+	        if (this._o.list || asList) {
+	            this._list = new List(this._emitter, this._o.list, asList);
 	        }
 	        // arrows / prevArrow / nextArrow
-	        if (o.arrows || o.asPrevArrow || o.asNextArrow) {
-	            this._arrows = new Arrows(this._emitter, o.arrows, { prevArrow: Util.getElement(o.asPrevArrow), nextArrow: Util.getElement(o.asNextArrow) });
+	        if (this._o.arrows || this._o.asPrevArrow || this._o.asNextArrow) {
+	            this._arrows = new Arrows(this._emitter, this._o.arrows, { prevArrow: Util.getElement(this._o.asPrevArrow), nextArrow: Util.getElement(this._o.asNextArrow) });
 	        }
 	        // auto playing
 	        if (this._autoPlay) {
@@ -1745,7 +1771,7 @@
 	            this.setAutoPlayInterval(false);
 	            this._el.appendChild(this._autoPlayContainer);
 	        }
-	    }
+	    };
 	    /**
 	     * Extracts attributes from default options.
 	     */
@@ -1756,7 +1782,7 @@
 	                o[i] = defaultOptions[i];
 	            }
 	        }
-	        var properties = ['timing', 'duration', 'sliderType', 'autoPlay', 'autoPlaySpeed'];
+	        var properties = ['timing', 'duration', 'sliderType', 'autoPlay', 'autoPlaySpeed', 'init'];
 	        for (i in o) {
 	            if (properties.indexOf(i) > -1) {
 	                this['_' + i] = o[i];
@@ -1769,20 +1795,22 @@
 	    MarvinaSlider.prototype.add = function (el, index, options) {
 	        if (options === void 0) { options = {}; }
 	        if ((el = Util.getElement(el)) && index > -1 && index <= this._total) {
-	            var wrapperEl = document.createElement('div');
-	            wrapperEl.classList.add('ms-slider-element-wrapper');
-	            el.classList.add('ms-slider-element');
-	            wrapperEl.appendChild(el);
-	            if (index < this._total) {
-	                this._container.insertBefore(wrapperEl, this._container.childNodes[index]);
-	            }
-	            else {
-	                this._container.appendChild(wrapperEl);
-	            }
-	            options.wrapperEl = wrapperEl;
-	            options.el = el;
-	            if (!options.sliderType) {
-	                options.sliderType = this._sliderType;
+	            if (this._init) {
+	                var wrapperEl = document.createElement('div');
+	                wrapperEl.classList.add('ms-slider-element-wrapper');
+	                el.classList.add('ms-slider-element');
+	                wrapperEl.appendChild(el);
+	                if (index < this._total) {
+	                    this._container.insertBefore(wrapperEl, this._container.childNodes[index]);
+	                }
+	                else {
+	                    this._container.appendChild(wrapperEl);
+	                }
+	                options.wrapperEl = wrapperEl;
+	                options.el = el;
+	                if (!options.sliderType) {
+	                    options.sliderType = this._sliderType;
+	                }
 	            }
 	            Slider[options.sliderType].init(options);
 	            this._elements.splice(index, 0, options);
@@ -1814,12 +1842,17 @@
 	     * Removes the element at the specified index from the slider.
 	     */
 	    MarvinaSlider.prototype.remove = function (index) {
-	        if (index > -1 && index < this._total && index != this._index && this._total > 2) {
-	            this._container.removeChild(this._container.childNodes[index]);
+	        if (index > -1 && index < this._total && this._total > 2) {
+	            if (this._init) {
+	                this._container.removeChild(this._container.childNodes[index]);
+	            }
 	            this._elements.splice(index, 1);
 	            this._total -= 1;
-	            if (this._index > index) {
+	            if (this._index >= index) {
 	                this._index -= 1;
+	            }
+	            if (this._elements[this._index]) {
+	                this._elements[this._index].wrapperEl.classList.add('ms-active');
 	            }
 	            if (this._list) {
 	                this._list.remove();
@@ -2111,6 +2144,12 @@
 	        if (duration === void 0) { duration = true; }
 	        var speed = (!duration) ? this._autoPlaySpeed : (this._autoPlaySpeed + this._duration);
 	        this._autoPlayInterval = setInterval(function () { _this.nextIndex(false, true); }, speed);
+	    };
+	    MarvinaSlider.prototype.getElements = function () {
+	        return this._elements;
+	    };
+	    MarvinaSlider.prototype.setElements = function (elements) {
+	        this._elements = elements;
 	    };
 	    // emitter methods
 	    MarvinaSlider.prototype.emit = function (method, args) {
