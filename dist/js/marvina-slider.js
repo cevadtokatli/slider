@@ -1,6 +1,6 @@
 /*!
  *   Marvina image slider
- *   version: 1.0.1
+ *   version: 1.0.2
  *    author: Cevad Tokatli <cevadtokatli@hotmail.com>
  *   website: http://cevadtokatli.com
  *    github: https://github.com/cevadtokatli/marvina-slider
@@ -2126,6 +2126,7 @@
 	}());
 
 	exports.Slider = MarvinaSlider;
+	exports.defaultOptions = defaultOptions;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 

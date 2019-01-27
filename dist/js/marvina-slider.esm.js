@@ -1,6 +1,6 @@
 /*!
  *   Marvina image slider
- *   version: 1.0.1
+ *   version: 1.0.2
  *    author: Cevad Tokatli <cevadtokatli@hotmail.com>
  *   website: http://cevadtokatli.com
  *    github: https://github.com/cevadtokatli/marvina-slider
@@ -2120,4 +2120,4 @@ var MarvinaSlider = /** @class */ (function () {
     return MarvinaSlider;
 }());
 
-export { MarvinaSlider as Slider, SliderType };
+export { MarvinaSlider as Slider, SliderType, defaultOptions };
