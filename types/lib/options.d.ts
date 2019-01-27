@@ -15,3 +15,5 @@ export interface Options {
     autoPlaySpeed?: number;
     imageSettings?: SliderElement[];
 }
+
+export const defaultOptions: Options;

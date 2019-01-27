@@ -1,6 +1,6 @@
 /*!
  *   Marvina image slider
- *   version: 1.0.2
+ *   version: 1.0.3
  *    author: Cevad Tokatli <cevadtokatli@hotmail.com>
  *   website: http://cevadtokatli.com
  *    github: https://github.com/cevadtokatli/marvina-slider
