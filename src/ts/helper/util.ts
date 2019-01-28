@@ -14,7 +14,9 @@ export default class Util {
                                                         ((callback:Function) => { window.setTimeout(callback, 1000 / 60)})
                                                     :
                                                         () => {};
-    public static isMobile:boolean = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    public static isMobile:boolean = typeof navigator !== 'undefined'
+                                     ? /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                                     : false;
     public static events:Events = {
         mousedown: Util.isMobile ? 'touchstart' : 'mousedown',
         mouseup: Util.isMobile ? 'touchend' : 'mouseup'

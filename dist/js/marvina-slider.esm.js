@@ -1,6 +1,6 @@
 /*!
  *   Marvina image slider
- *   version: 1.0.5
+ *   version: 1.0.6
  *    author: Cevad Tokatli <cevadtokatli@hotmail.com>
  *   website: http://cevadtokatli.com
  *    github: https://github.com/cevadtokatli/marvina-slider
@@ -1312,7 +1312,9 @@ var Util = /** @class */ (function () {
                 (function (callback) { window.setTimeout(callback, 1000 / 60); })
         :
             function () { };
-    Util.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    Util.isMobile = typeof navigator !== 'undefined'
+        ? /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        : false;
     Util.events = {
         mousedown: Util.isMobile ? 'touchstart' : 'mousedown',
         mouseup: Util.isMobile ? 'touchend' : 'mouseup'
