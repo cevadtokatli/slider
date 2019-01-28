@@ -1,6 +1,6 @@
 /*!
  *   Marvina image slider
- *   version: 1.0.6
+ *   version: 1.0.8
  *    author: Cevad Tokatli <cevadtokatli@hotmail.com>
  *   website: http://cevadtokatli.com
  *    github: https://github.com/cevadtokatli/marvina-slider
@@ -1299,8 +1299,11 @@ var Util = /** @class */ (function () {
      * Creates a new event and initalizes it.
      */
     Util.createEvent = function (name) {
-        var event = document.createEvent('HTMLEvents') || document.createEvent('event');
-        event.initEvent(name, false, true);
+        var event;
+        if (typeof document !== 'undefined') {
+            event = document.createEvent('HTMLEvents') || document.createEvent('event');
+            event.initEvent(name, false, true);
+        }
         return event;
     };
     Util.setCSSPrefix = function (css) {
@@ -1674,6 +1677,10 @@ var MarvinaSlider = /** @class */ (function () {
             get: this.get.bind(this),
             set: this.set.bind(this)
         };
+        // dont install if runs on the server.
+        if (typeof window === 'undefined') {
+            return;
+        }
         this.extractAttributes(o);
         this._o = o;
         if (!(this._el = Util.getElement(o.el))) {

@@ -38,6 +38,11 @@ export class MarvinaSlider {
     };
 
     constructor(o:Options=defaultOptions) {
+        // dont install if runs on the server.
+        if(typeof window === 'undefined') {
+            return;
+        }
+
         this.extractAttributes(o);
         this._o = o;
 

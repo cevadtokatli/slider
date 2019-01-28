@@ -68,8 +68,11 @@ export default class Util {
      * Creates a new event and initalizes it.
      */
     public static createEvent(name:string): Event {
-        let event:Event = document.createEvent('HTMLEvents') || document.createEvent('event');
-        event.initEvent(name, false, true);
+        let event:Event;
+        if(typeof document !== 'undefined') {
+            event = document.createEvent('HTMLEvents') || document.createEvent('event');
+            event.initEvent(name, false, true);
+        }
         return event;
     }
 
