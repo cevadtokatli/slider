@@ -4,12 +4,16 @@ interface Events {
 }
 
 export default class Util {
-    public static requestAnimationFrame:Function = (<any>window).webkitRequestAnimationFrame ||
-                                                   (<any>window).mozRequestAnimationFrame ||
-                                                   (<any>window).oRequestAnimationFrame ||
-                                                   (<any>window).msRequestAnimationFrame ||
-                                                   window.requestAnimationFrame ||
-                                                   ((callback:Function) => { window.setTimeout(callback, 1000 / 60)});
+    public static requestAnimationFrame:Function = typeof window !== 'undefined' 
+                                                    ?
+                                                        (<any>window).webkitRequestAnimationFrame ||
+                                                        (<any>window).mozRequestAnimationFrame ||
+                                                        (<any>window).oRequestAnimationFrame ||
+                                                        (<any>window).msRequestAnimationFrame ||
+                                                        window.requestAnimationFrame ||
+                                                        ((callback:Function) => { window.setTimeout(callback, 1000 / 60)})
+                                                    :
+                                                        () => {};
     public static isMobile:boolean = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     public static events:Events = {
         mousedown: Util.isMobile ? 'touchstart' : 'mousedown',
