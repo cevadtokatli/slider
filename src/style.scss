@@ -1,0 +1,237 @@
+$zindex-b: 4;
+$zindex-s: 2;
+
+.ct-s {
+  &,
+  .ct-s-slider,
+  .ct-s-slider-element-container {
+    position: relative;
+  }
+
+  .ct-s-slider {
+    &,
+    .ct-s-slider-element-container,
+    .ct-s-slider-element-wrapper,
+    .ct-s-slider-element {
+      width: 100%;
+      height: 100%;
+    }
+
+    overflow: hidden;
+
+    .ct-s-slider-element-container {
+      &.ct-s-carousel {
+        &:not(.ct-s-carousel-reverse) {
+          &.ct-s-carousel-animation {
+            @extend .ct-s-animation;
+            animation-name: ct-s-carousel;
+          }
+
+          .ct-s-carousel-next {
+            left: 100%;
+          }
+        }
+
+        &.ct-s-carousel-reverse {
+          &.ct-s-carousel-animation {
+            @extend .ct-s-animation;
+            animation-name: ct-s-carousel-reverse;
+          }
+
+          .ct-s-carousel-next {
+            left: -100%;
+          }
+        }
+      }
+
+      &.ct-s-flow {
+        &:not(.ct-s-flow-reverse) .ct-s-flow-next {
+          &,
+          .ct-s-slider-element {
+            right: 0;
+          }
+        }
+
+        &.ct-s-flow-reverse .ct-s-flow-next {
+          left: 0;
+        }
+
+        .ct-s-flow-prev {
+          z-index: $zindex-s;
+        }
+
+        .ct-s-flow-next {
+          z-index: $zindex-b;
+          width: 0;
+
+          &.ct-s-flow-animation {
+            @extend .ct-s-animation;
+            animation-name: ct-s-flow;
+          }
+        }
+      }
+
+      &.ct-s-fade {
+        .ct-s-fade-prev {
+          z-index: $zindex-s;
+        }
+
+        .ct-s-fade-next {
+          z-index: $zindex-b;
+          opacity: 0;
+
+          &.ct-s-fade-animation {
+            @extend .ct-s-animation;
+            animation-name: ct-s-fade;
+          }
+        }
+      }
+
+      .ct-s-slider-element-wrapper {
+        position: absolute;
+        overflow: hidden;
+
+        &:not(.ct-s-active) {
+          display: none;
+        }
+
+        .ct-s-slider-element {
+          position: absolute;
+          background-size: contain;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+  }
+
+  & > ul {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 10px;
+    z-index: 6;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+
+    li {
+      -webkit-flex: 0 0 auto;
+      -ct-s-flex: 0 0 auto;
+      flex: 0 0 auto;
+      width: 10px;
+      height: 10px;
+      margin: 10px 5px;
+      border-radius: 100%;
+      background: rgba(235,235,235,.4);
+      transition: 175ms 0s linear;
+      transition-property: background-color, box-shadow;
+
+      &.ct-s-active {
+          background-color: #EBEBEB;
+          box-shadow: 0px 0px 5px 0px rgba(236,236,236,.4);           
+      }
+  }
+
+  }
+
+  .ct-s-arrow {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    z-index: 6;
+    margin-top: -25px;
+    user-select: none;
+
+    &.ct-s-prev-arrow {
+      left: 20px;
+    }
+
+    &.ct-s-next-arrow {
+      right: 20px;
+    }
+
+    svg {
+      fill:  rgba(220, 220, 220, 0.6);
+    }
+
+    &:hover svg {
+      fill:  #EEE;
+    }
+  }
+
+  .ct-s-autoplay-container {
+    position: absolute;
+    right: 27px;
+    top: 25px;
+    z-index: 6;
+    width: 35px;
+    height: 35px;
+
+    & > svg {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      fill: rgba(255,255,255,.7);
+      transition: fill 200ms 0s linear, opacity 100ms 0s linear;
+    }
+
+    &:hover > svg {
+      fill: #FFF;
+    }
+
+    &.ct-s-active .ct-s-play,
+    &:not(.ct-s-active) .ct-s-stop {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+.ct-s-animation {
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+}
+
+@keyframes ct-s-carousel {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes ct-s-carousel-reverse {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes ct-s-flow {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes ct-s-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

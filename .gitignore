@@ -1,5 +1,6 @@
-.idea/
+.DS_Store
 node_modules/
-.rpt2_cache/
-demo/
+dist/
+lib/
 yarn.lock
+package-lock.json

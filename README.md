@@ -1,67 +1,59 @@
-# Marvina Slider
-Image Slider library for web and mobile browsers. \
-For more information you can take a look at the demos: [Demo 1](https://cevadtokatli.github.io/marvina-slider/demo-1.html), [Demo 2](https://cevadtokatli.github.io/marvina-slider/demo-2.html), [Demo 3](https://cevadtokatli.github.io/marvina-slider/demo-3.html), [Demo 4](https://cevadtokatli.github.io/marvina-slider/demo-4.html).
+# Slider
 
-## NPM
-```
-npm install --save-dev marvina-slider
+Image Slider library for web and mobile browsers.
+
+## Intallation
+
+It is available as a package on NPM for use with a module bundler.
+
+```sh
+# NPM
+$ npm install --save @cevad-tokatli/slider
+
+# Yarn
+$ yarn add @cevad-tokatli/slider
 ```
 
-## Yarn
-```
-yarn add marvina-slider --dev
-```
+## Usage
+You can simply import the module and create a new object with the `Slider` class.
 
-## Installation
-You can simply import Marvina Slider and create a new object with the `Slider` class.
-```
-import {Slider} from 'marvina-slider';
+```ts
+import Slider from '@cevad-tokatli/slider'
+import '@cevad-tokatli/slider/style.css'
 
 const slider = new Slider({
-    el: '#slider'
+  el: '#slider',
 });
-```
-
-You can also add the script file into your html.
-```
-<script src="/node_modules/marvina-slider/dist/js/marvina-slider.min.js"></script>
-<script>
-var slider = new MarvinaSlider.Slider({
-    el: '#slider'
-});
-</script>
-```
-
-Add the css file.
-```
-<link rel="stylesheet" href="/node_modules/marvina-slider/dist/css/marvina-slider.min.css" /> 
 ```
 
 ## Configuration
 ### Id
-You can customize each element by assinging an id.
-```
-// html
-<div id="slider">
-    <div class="ms-slider-element" ms-id="img1">Image-1</div>
-    <div class="ms-slider-element" ms-id="img2">Image-2</div>
-    <div class="ms-slider-element" ms-id="img3">Image-3</div>
-</div>
 
-// js
-import {Slider, SliderType} from 'marvina-slider'
+You can customize each element by assinging an id.
+
+```html
+<div id="slider">
+    <div class="ct-s-slider-element" ct-s-id="img1">Image-1</div>
+    <div class="ct-s-slider-element" ct-s-id="img2">Image-2</div>
+    <div class="ct-s-slider-element" ct-s-id="img3">Image-3</div>
+</div>
+```
+
+```ts
+import Slider, { SliderType } from '@cevad-tokatli/slider'
 
 const slider = new Slider({
-    el: '#slider',
-    imagesSettings: [
-        { id:'img1', sliderType:SliderType.Carousel },
-        { id:'img2', sliderType:SliderType.Flow },
-        { id:'img3', sliderType:SliderType.Fade }
-    ]
-});
+  el: '#slider',
+  imagesSettings: [
+    { id:'img1', sliderType: SliderType.Carousel },
+    { id:'img2', sliderType: SliderType.Flow },
+    { id:'img3', sliderType: SliderType.Fade },
+  ]
+})
 ```
 
 ### Options
+
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 el | string \| HTMLElement* | null | Container element.
@@ -81,9 +73,11 @@ imagesSettings | [SliderElement[]](#slider-element) | [] | Customizes each eleme
 <span style="font-size:.9rem;">*: You can give an HTML element or a CSS selector (like `#carousel`, `.container > div:first-child`)</span>
 
 #### Slider Type
-Specifies the slider animation type. You can import `SliderType` if you are using modules.
+Specifies the slider animation type.
 
-` import {Slider, SliderType} from 'marvina-slider' `
+```ts
+import Slider, { SliderType } from '@cevad-tokatli/slider'
+```
 
 #### As List
 You can convert an HTML list element to a slider list that shows the current index and works as a pager.
@@ -91,33 +85,34 @@ You can convert an HTML list element to a slider list that shows the current ind
 * It can be placed anywhere in the `body`.
 * List is updated when the index is changed.
 * Assigns `ms-active` class to list element that holds the current index.
-```
-// html
+
+```html
 <div id="slider">
-    <div class="ms-slider-element" ms-id="img1">Image-1</div>
-    <div class="ms-slider-element" ms-id="img2">Image-2</div>
-    <div class="ms-slider-element" ms-id="img3">Image-3</div>
+    <div class="ct-s-slider-element" ct-s-id="img1">Image-1</div>
+    <div class="ct-s-slider-element" ct-s-id="img2">Image-2</div>
+    <div class="ct-s-slider-element" ct-s-id="img3">Image-3</div>
 </div>
 <ul id="list">
     <li>1</li>
     <li>2</li>
     <li>3</li>
 </ul>
+```
 
-// script
-var slider = new MarvinaSlider.Slider({
-    el: '#slider',
-    list: false,
-    asList: '#list'
-});
+```ts
+const slider = new Slider({
+  el: '#slider',
+  list: false,
+  asList: '#list',
+})
 ```
 
 ### Callbacks
 #### Before
-**before(current:SliderElement, next:SliderElement): Promise\<void>** \
+**before(current: SliderElement, next: SliderElement): Promise\<boolean>** \
 It is invoked before animation runs. It returns a promise so that animation waits for this mehtod to complete.  
 
-**after(current:SliderElement, prev:SliderElement): Promise\<void>** \
+**after(current: SliderElement, prev: SliderElement): Promise\<boolean>** \
 It is invoked after animation runs. It returns a promise so before the method completes running, another animation cannot run.
 
 [Each slider element also has an before and after method for themselves.](#slider-element)
@@ -131,20 +126,21 @@ change | Fires when index changes.
 play | Fires when autoplay starts.
 stop | Fires when autoplay stops.
 destroy | Fires when the slider is destroyed.
-```
-import {Slider} from 'marvina-slider';
+
+```ts
+import Slider from '@cevat-tokatli/slider'
 
 const slider = new Slider({
-    el: '#slider'
-});
+  el: '#slider',
+})
 
 slider.el.addEventListener('touchStart', () => {
-    console.log('touching starts');
-});
+  console.log('touching starts')
+})
 
 slider.el.addEventListener('touchEnd', () => {
-    console.log('touching ends');
-});
+  console.log('touching ends')
+})
 ```
 
 ### Methods
@@ -185,17 +181,14 @@ Specifies the id of an image.
 **sliderType {SliderType}** \
 Specifies the slider type of an image.
 
-**before(el:SliderElement, active:boolean): Promise\<void>** \
+**before(el: SliderElement, active:boolean): Promise\<void>** \
 It is invoked before animation runs. It returns a promise so animation waits for this method to complete. It is only invoked when it is the current or the next element. If it is the next element, active is true.
 
-**after(el:SliderElement, active:boolean): Promise\<void>** \
+**after(el: SliderElement, active:boolean): Promise\<void>** \
 It is invoked after animation runs. It returns a promise so before the method completes, another animation cannot run.  It is only invoked when it is the current or the previous element. If it is the current element, active is true.
 
-## IE Support
-IE 10 is not supported and patches to fix problems will not be accepted.
-
 ## License
-Marvina Slider is provided under the [MIT License](https://opensource.org/licenses/MIT).
+Slider is provided under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Related Projects
-* [Marvina Slider React](https://github.com/cevadtokatli/marvina-slider-react)
+* [Slider React](https://github.com/cevadtokatli/slider-react)

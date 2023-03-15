@@ -1,6 +1,8 @@
 {
-  "name": "marvina-slider",
-  "version": "1.0.8",
+  "name": "@cevad-tokatli/slider",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
   "description": "Image slider for web and mobile browsers",
   "keywords": [
     "typescript",
@@ -9,38 +11,29 @@
     "image"
   ],
   "author": {
-    "name": "Cevad Tokatli",
-    "email": "cevadtokatli@hotmail.com",
-    "url": "http://cevadtokatli.com"
+    "name": "Cevad Tokatlı",
+    "email": "cevadtokatli@hotmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cevadtokatli/marvina-slider"
+    "url": "https://github.com/cevadtokatli/slider"
   },
-  "files": [
-    "src",
-    "dist",
-    "types",
-    "gulpfile.js",
-    "tsconfig.json"
-  ],
-  "license": "MIT",
-  "main": "dist/js/marvina-slider.min.js",
-  "module": "dist/js/marvina-slider.esm.js",
-  "typings": "types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "yarn clear && yarn script:build && yarn style:build && yarn copy",
+    "clear": "rm -rf lib",
+    "copy": "cp README.md lib/README.md && cp package.json lib/package.json && cp LICENSE lib/LICENSE",
+    "dev": "node dev.js",
+    "release": "yarn build && cd lib && yarn publish",
+    "script:build": "tsc --outDir lib",
+    "script:dev": "tsc -w --outDir lib",
+    "style:build": "node-sass src/style.scss lib/style.css",
+    "style:dev": "node-sass src/style.scss lib/style.css -w"
+  },
   "devDependencies": {
-    "es6-promise": "^4.2.4",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-cssmin": "^0.2.0",
-    "gulp-less": "^4.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^3.0.0",
-    "rollup": "^0.58.0",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-typescript2": "^0.13.0",
-    "tslib": "^1.9.0",
-    "typescript": "^2.8.1"
+    "node-sass": "8.0.0",
+    "typescript": "4.8.3"
   }
 }
