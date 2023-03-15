@@ -23,7 +23,7 @@ import '@cevad-tokatli/slider/style.css'
 
 const slider = new Slider({
   el: '#slider',
-});
+})
 ```
 
 ## Configuration
@@ -84,7 +84,7 @@ You can convert an HTML list element to a slider list that shows the current ind
 * It can be a `ul` or `ol` element.
 * It can be placed anywhere in the `body`.
 * List is updated when the index is changed.
-* Assigns `ms-active` class to list element that holds the current index.
+* Assigns `ct-s-active` class to list element that holds the current index.
 
 ```html
 <div id="slider">
