@@ -6,7 +6,7 @@
     "start": "webpack serve --mode development"
   },
   "dependencies": {
-    "@cevad-tokatli/slider": "../lib"
+    "@cevad-tokatli/slider": "1.0.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
